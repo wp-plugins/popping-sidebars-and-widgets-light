@@ -1,0 +1,3 @@
+<div class="updated">
+	<p><?php _e( '<p>See <a href="http://otwthemes.com/online-documentation-popping-sidebars-and-widgets-light-plugin/?utm_source=wp.org&amp;utm_medium=admin&amp;utm_content=docs&amp;utm_campaign=psw">Online documentation</a> for more info on this plugin.</p><p>Check out the <a href="http://otwthemes.com/product/popping-sidebars-and-widgets-for-wordpress/?utm_source=wp.org&amp;utm_medium=admin&amp;utm_content=upgrade&amp;utm_campaign=psw">full version of Popping Sidebars and Widgets</a>.</p>', 'otw_pswl' );?></p>
+</div>
