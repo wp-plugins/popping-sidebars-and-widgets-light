@@ -144,7 +144,7 @@ class OTW_Overlay_Grid_Manager extends OTW_Component{
 		
 		$content .= "\n<script type=\"text/javascript\">";
 		$content .= "\njQuery(document).ready(function(){
-				otw_grid_manager_".$this->meta_name." = new otw_grid_manager_object( '".$this->meta_name."', ".json_encode( $this->labels ).", ".json_encode( $js_templates )."  );";
+				otw_grid_manager_".$this->meta_name." = new otw_overlay_grid_manager_object( '".$this->meta_name."', ".json_encode( $this->labels ).", ".json_encode( $js_templates )."  );";
 		$content .= "\n});";
 		$content .=  "\n</script>";
 		$content .= "</div>";

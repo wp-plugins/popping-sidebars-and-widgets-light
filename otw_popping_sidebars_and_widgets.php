@@ -4,7 +4,7 @@ Plugin Name: Popping Sidebars and Widgets Light
 Plugin URI: http://OTWthemes.com
 Description:  Create custom popping layouts with sidebars and widgets in just a few clicks. 
 Author: OTWthemes.com
-Version: 1.0
+Version: 1.1
 
 Author URI: http://themeforest.net/user/OTWthemes
 */
@@ -13,8 +13,8 @@ load_plugin_textdomain('otw_pswl',false,dirname(plugin_basename(__FILE__)) . '/l
 
 $otw_pswl_plugin_url = plugin_dir_url( __FILE__);
 
-$otw_pswl_js_version = '1.0';
-$otw_pswl_css_version = '1.1';
+$otw_pswl_js_version = '1.1';
+$otw_pswl_css_version = '1.2';
 
 $otw_sbm_widget_settings = array( 
 	'before_widget' => array( __( 'HTML to be placed before every widget.', 'otw_pswl' ), '<div id="%1$s" class="widget %2$s">' ),

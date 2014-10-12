@@ -62,6 +62,76 @@ function init_manage_page(){
 		jQuery(this).parent().find( '.inside').toggleClass('otw_closed');
 		jQuery(this).parent().toggleClass('closed');
 	});
+	
+	jQuery( '.otw_info_box .otw_info_box_controls a' ).click( function(){
+	
+		var matches = false;
+		
+		var link = jQuery( this );
+		
+		var info_box = link.parent().parent();
+		
+		if( matches = link.attr( 'class' ).match( /otw_(open|close)_info_box/ ) ){
+			var post_params = {};
+			post_params.type = 'page';
+			post_params.page = 'otw-pswl-manage';
+			post_params.setting = 'infobox';
+			
+			switch( matches[1] ){
+			
+				case 'open':
+						info_box.removeClass( 'otw_ib_closed' ).addClass( 'otw_ib_open' );
+						post_params.value = 'open';
+					break;
+				default:
+						info_box.removeClass( 'otw_ib_open' ).addClass( 'otw_ib_closed' );
+						post_params.value = 'closed';
+					break;
+			}
+			
+			var req_url = 'admin-ajax.php?action=otw_pswl_admin_settings';
+			
+			var settings = {
+				url: req_url,
+				type: 'post',
+				data: post_params
+			};
+			jQuery.ajax( settings );
+		}
+	} );
+	
+	jQuery( '.otw_info_box .otw_info_box_content a.otw_scrollto' ).click( function(){
+	
+		var link = jQuery( this );
+		
+		if( link.attr( 'rel' ).match( /^otw_options_(.*)$/ ) ){
+			
+			jQuery( '.otw_overlay_openened .' + link.attr( 'rel' ) ).each( function(){
+			
+				var node = jQuery( this );
+				
+				if( node.css( 'display' ) == 'block' ){
+					
+					jQuery('html, body').animate({
+						scrollTop: ( node.offset().top - 30 )
+					}, 1000 );
+				}
+			
+			});
+		}else if( link.attr( 'rel' ) == 'otw_grid_manager_content' ){
+		
+			jQuery( '#otw_grid_manager_content' ).each( function(){
+			
+				var node = jQuery( this );
+				
+				jQuery('html, body').animate({
+					scrollTop: ( node.offset().top - 30 )
+				}, 1000 );
+			
+			});
+		}
+	});
+
 };
 function set_height_from_top_and_bottom(){
 

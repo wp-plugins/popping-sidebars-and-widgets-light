@@ -1,4 +1,4 @@
-function otw_grid_manager_object( object_name, labels, templates ){
+function otw_overlay_grid_manager_object( object_name, labels, templates ){
 	
 	this.object_name = object_name;
 	
@@ -50,7 +50,7 @@ function otw_grid_manager_object( object_name, labels, templates ){
 	
 	this.init();
 };
-otw_grid_manager_object.prototype.init = function(){
+otw_overlay_grid_manager_object.prototype.init = function(){
 
 	with( this ){
 		
@@ -73,7 +73,7 @@ otw_grid_manager_object.prototype.init = function(){
 	}
 };
 
-otw_grid_manager_object.prototype.load_from_json = function( json_code ){
+otw_overlay_grid_manager_object.prototype.load_from_json = function( json_code ){
 	
 	var row_id = 0;
 	if( json_code.length ){
@@ -102,7 +102,7 @@ otw_grid_manager_object.prototype.load_from_json = function( json_code ){
 	this.preview();
 };
 
-otw_grid_manager_object.prototype.get_label = function( label ){
+otw_overlay_grid_manager_object.prototype.get_label = function( label ){
 
 	if( this.labels[ label ] ){
 		return this.labels[ label ];
@@ -111,7 +111,7 @@ otw_grid_manager_object.prototype.get_label = function( label ){
 	return label;
 };
 
-otw_grid_manager_object.prototype.build_templates_menu_links = function(){
+otw_overlay_grid_manager_object.prototype.build_templates_menu_links = function(){
 
 	this.templates_dropdown_menu.html( '' );
 	
@@ -136,7 +136,7 @@ otw_grid_manager_object.prototype.build_templates_menu_links = function(){
 	this.init_template_dropdown_actions();
 };
 
-otw_grid_manager_object.prototype.close_dropdowns = function(){
+otw_overlay_grid_manager_object.prototype.close_dropdowns = function(){
 
 	if( this.templates_dropdown_menu ){
 		this.templates_dropdown_menu.hide();
@@ -157,7 +157,7 @@ otw_grid_manager_object.prototype.close_dropdowns = function(){
 	};
 };
 
-otw_grid_manager_object.prototype.show_add_row_menu = function( append_to ){
+otw_overlay_grid_manager_object.prototype.show_add_row_menu = function( append_to ){
 	
 	this.add_row();
 	this.preview();
@@ -165,7 +165,7 @@ otw_grid_manager_object.prototype.show_add_row_menu = function( append_to ){
 	return;
 };
 
-otw_grid_manager_object.prototype.show_add_column_menu = function( append_to, row_id ){
+otw_overlay_grid_manager_object.prototype.show_add_column_menu = function( append_to, row_id ){
 
 	this.close_dropdowns();
 	
@@ -259,7 +259,7 @@ otw_grid_manager_object.prototype.show_add_column_menu = function( append_to, ro
 };
 
 
-otw_grid_manager_object.prototype.init_add_row_dropdown_actions = function(){
+otw_overlay_grid_manager_object.prototype.init_add_row_dropdown_actions = function(){
 	with( this ){
 		this.add_row_dropdown_menu.find( 'div.otw-add-row-selector' ).click( function( event ){
 			
@@ -335,7 +335,7 @@ otw_grid_manager_object.prototype.init_add_row_dropdown_actions = function(){
 	};
 };
 
-otw_grid_manager_object.prototype.init_add_column_dropdown_actions = function(){
+otw_overlay_grid_manager_object.prototype.init_add_column_dropdown_actions = function(){
 	
 	with( this ){
 		this.add_column_dropdown_menu.find( 'div.otw-add-column-selector span' ).click( function( event ){
@@ -433,7 +433,7 @@ otw_grid_manager_object.prototype.init_add_column_dropdown_actions = function(){
 	};
 };
 
-otw_grid_manager_object.prototype.init_template_dropdown_actions = function(){
+otw_overlay_grid_manager_object.prototype.init_template_dropdown_actions = function(){
 	
 	with( this ){
 		
@@ -505,14 +505,14 @@ otw_grid_manager_object.prototype.init_template_dropdown_actions = function(){
 	};
 };
 
-otw_grid_manager_object.prototype.set_code = function(){
+otw_overlay_grid_manager_object.prototype.set_code = function(){
 	
 	var code = JSON.stringify( this.rows );
 	
 	this.code_container.val( code );
 };
 
-otw_grid_manager_object.prototype.preview = function(){
+otw_overlay_grid_manager_object.prototype.preview = function(){
 	
 	this.set_code();
 	
@@ -612,7 +612,7 @@ otw_grid_manager_object.prototype.preview = function(){
 	
 	this.row_column_nodes = this.preview_container.find( 'div.otw-row-columns' );
 };
-otw_grid_manager_object.prototype.inline_preview = function(){
+otw_overlay_grid_manager_object.prototype.inline_preview = function(){
 	
 	for( var cR = 0; cR < this.rows.length; cR++){
 		
@@ -628,7 +628,7 @@ otw_grid_manager_object.prototype.inline_preview = function(){
 		};
 	};
 };
-otw_grid_manager_object.prototype.init_controls = function(){
+otw_overlay_grid_manager_object.prototype.init_controls = function(){
 	
 	with( this ){
 		
@@ -722,7 +722,7 @@ otw_grid_manager_object.prototype.init_controls = function(){
 		
 	};
 };
-otw_grid_manager_object.prototype.is_target_row_full = function( target_child, item ){
+otw_overlay_grid_manager_object.prototype.is_target_row_full = function( target_child, item ){
 	
 	var full_row = target_child.parents( 'div.otw-full-row' );
 	
@@ -739,7 +739,7 @@ otw_grid_manager_object.prototype.is_target_row_full = function( target_child, i
 	
 	return false;
 };
-otw_grid_manager_object.prototype.order_rows = function(){
+otw_overlay_grid_manager_object.prototype.order_rows = function(){
 	
 	var rows_order = new Array();
 	
@@ -764,7 +764,7 @@ otw_grid_manager_object.prototype.order_rows = function(){
 	
 	this.preview();
 };
-otw_grid_manager_object.prototype.order_columns = function( column_order ){
+otw_overlay_grid_manager_object.prototype.order_columns = function( column_order ){
 	
 	var all_columns = {};
 	
@@ -827,7 +827,7 @@ otw_grid_manager_object.prototype.order_columns = function( column_order ){
 	};
 	this.preview();
 };
-otw_grid_manager_object.prototype.order_shortcodes = function( column_order ){
+otw_overlay_grid_manager_object.prototype.order_shortcodes = function( column_order ){
 	
 	var all_shortcodes = {};
 	for( var cR = 0; cR < this.rows.length; cR++ ){
@@ -864,7 +864,7 @@ otw_grid_manager_object.prototype.order_shortcodes = function( column_order ){
 	this.preview();
 };
 
-otw_grid_manager_object.prototype.remove_shortcode = function( row_id, column_id, shortcode_id ){
+otw_overlay_grid_manager_object.prototype.remove_shortcode = function( row_id, column_id, shortcode_id ){
 
 	var tmp_shortcodes = this.rows[ row_id ].columns[ column_id ].shortcodes;
 	
@@ -880,7 +880,7 @@ otw_grid_manager_object.prototype.remove_shortcode = function( row_id, column_id
 	this.preview();
 
 };
-otw_grid_manager_object.prototype.remove_row = function( row_id ){
+otw_overlay_grid_manager_object.prototype.remove_row = function( row_id ){
 	
 	var tmp_rows = this.rows;
 	
@@ -895,7 +895,7 @@ otw_grid_manager_object.prototype.remove_row = function( row_id ){
 	
 	this.preview();
 };
-otw_grid_manager_object.prototype.remove_column = function( row_id, column_id ){
+otw_overlay_grid_manager_object.prototype.remove_column = function( row_id, column_id ){
 	
 	var tmp_columns = this.rows[ row_id ].columns;
 	
@@ -910,24 +910,24 @@ otw_grid_manager_object.prototype.remove_column = function( row_id, column_id ){
 	
 	this.preview();
 };
-otw_grid_manager_object.prototype.get_shortcode_number_from_controls = function( control ){
+otw_overlay_grid_manager_object.prototype.get_shortcode_number_from_controls = function( control ){
 	
 	var parentClass = jQuery( control ).parents( 'div.otw-column-shortcode').attr( 'class' );
 	return this.get_shortcode_number_from_class( parentClass );
 };
-otw_grid_manager_object.prototype.get_column_number_from_controls = function( control ){
+otw_overlay_grid_manager_object.prototype.get_column_number_from_controls = function( control ){
 	
 	var parentClass = jQuery( control ).parents( 'div.otw-columns').attr( 'class' );
 	return this.get_column_number_from_class( parentClass );
 
 };
-otw_grid_manager_object.prototype.get_row_number_from_controls = function( control ){
+otw_overlay_grid_manager_object.prototype.get_row_number_from_controls = function( control ){
 	
 	var parentClass = jQuery( control ).parents( 'div.otw-grid-manager-row').attr( 'class' );
 	return this.get_row_number_from_class( parentClass );
 
 };
-otw_grid_manager_object.prototype.get_row_number_from_class = function( objectClass ){
+otw_overlay_grid_manager_object.prototype.get_row_number_from_class = function( objectClass ){
 	
 	var matches = false;
 	if( matches = objectClass.match( /otw\-row\-n([0-9]+)/ ) ){
@@ -936,7 +936,7 @@ otw_grid_manager_object.prototype.get_row_number_from_class = function( objectCl
 
 	return -1;
 };
-otw_grid_manager_object.prototype.get_column_number_from_class = function( objectClass ){
+otw_overlay_grid_manager_object.prototype.get_column_number_from_class = function( objectClass ){
 	
 	var matches = false;
 	if( matches = objectClass.match( /otw\-column\-r([0-9]+)\-n([0-9]+)/ ) ){
@@ -945,7 +945,7 @@ otw_grid_manager_object.prototype.get_column_number_from_class = function( objec
 	
 	return -1;
 };
-otw_grid_manager_object.prototype.get_shortcode_number_from_class = function( objectClass ){
+otw_overlay_grid_manager_object.prototype.get_shortcode_number_from_class = function( objectClass ){
 	
 	var matches = false;
 	if( matches = objectClass.match( /otw\-column\-shortcode\-r([0-9]+)\-n([0-9]+)\-s([0-9]+)/ ) ){
@@ -954,23 +954,23 @@ otw_grid_manager_object.prototype.get_shortcode_number_from_class = function( ob
 	
 	return -1;
 };
-otw_grid_manager_object.prototype.get_column_class = function( rows, from_rows ){
+otw_overlay_grid_manager_object.prototype.get_column_class = function( rows, from_rows ){
 	
 	var class_number = ( this.grid_size / from_rows ) * rows;
 	
 	return this.number_names[ class_number ];
 };
 
-otw_grid_manager_object.prototype.add_row = function( rows, from_rows, mobile_rows, mobile_from_rows ){
+otw_overlay_grid_manager_object.prototype.add_row = function( rows, from_rows, mobile_rows, mobile_from_rows ){
 
 	var row_id = this.rows.length;
 	
-	this.rows[ row_id ] = new otw_grid_manager_row();
+	this.rows[ row_id ] = new otw_overlay_grid_manager_row();
 	
 	return row_id;
 };
 
-otw_grid_manager_object.prototype.row_columns_number = function( row_id, ignore_columns ){
+otw_overlay_grid_manager_object.prototype.row_columns_number = function( row_id, ignore_columns ){
 	
 	var total_columns = 0;
 	
@@ -997,7 +997,7 @@ otw_grid_manager_object.prototype.row_columns_number = function( row_id, ignore_
 	return total_columns;
 };
 
-otw_grid_manager_object.prototype.valid_column_numbers = function( row_id, new_columns, ignore_columns ){
+otw_overlay_grid_manager_object.prototype.valid_column_numbers = function( row_id, new_columns, ignore_columns ){
 	
 	
 	var current_columns_number = 0;
@@ -1018,7 +1018,7 @@ otw_grid_manager_object.prototype.valid_column_numbers = function( row_id, new_c
 	return true;
 };
 
-otw_grid_manager_object.prototype.row_error = function( row_id, error_string ){
+otw_overlay_grid_manager_object.prototype.row_error = function( row_id, error_string ){
 	
 	with( this ){
 	
@@ -1056,7 +1056,7 @@ otw_grid_manager_object.prototype.row_error = function( row_id, error_string ){
 	}
 };
 
-otw_grid_manager_object.prototype.add_column = function( row_id, rows, from_rows, mobile_rows, mobile_from_rows ){
+otw_overlay_grid_manager_object.prototype.add_column = function( row_id, rows, from_rows, mobile_rows, mobile_from_rows ){
 	
 	if( this.rows[ row_id ] )
 	{
@@ -1064,7 +1064,7 @@ otw_grid_manager_object.prototype.add_column = function( row_id, rows, from_rows
 			
 			var column_id = this.rows[ row_id ].columns.length;
 			
-			this.rows[ row_id ].columns[ column_id ] = new otw_grid_manager_column( rows, from_rows, mobile_rows, mobile_from_rows );
+			this.rows[ row_id ].columns[ column_id ] = new otw_overlay_grid_manager_column( rows, from_rows, mobile_rows, mobile_from_rows );
 			
 			return column_id;
 		}else{
@@ -1075,12 +1075,12 @@ otw_grid_manager_object.prototype.add_column = function( row_id, rows, from_rows
 	return -1;
 };
 
-otw_grid_manager_row = function(){
+otw_overlay_grid_manager_row = function(){
 
 	this.columns = new Array();
 };
 
-otw_grid_manager_column = function( rows, from_rows, mobile_rows, mobile_from_rows ){
+otw_overlay_grid_manager_column = function( rows, from_rows, mobile_rows, mobile_from_rows ){
 	
 	this.rows = Number( rows );
 	
@@ -1092,19 +1092,19 @@ otw_grid_manager_column = function( rows, from_rows, mobile_rows, mobile_from_ro
 	
 	this.shortcodes = new Array();
 };
-otw_grid_manager_column.prototype.add_shortcode = function( code ){
+otw_overlay_grid_manager_column.prototype.add_shortcode = function( code ){
 	
-	this.shortcodes[ this.shortcodes.length ] = new otw_grid_manager_shortcode( code );
+	this.shortcodes[ this.shortcodes.length ] = new otw_overlay_grid_manager_shortcode( code );
 };
 
-otw_grid_manager_shortcode = function( settings ){
+otw_overlay_grid_manager_shortcode = function( settings ){
 	
 	for( var setting in settings ){
 	
 		this[ setting ] = settings[ setting ]
 	}
 }
-otw_grid_manager_shortcode.prototype.html_code = function( object_name, row_id, column_id, shortcode_id, parent, total_shortcodes ){
+otw_overlay_grid_manager_shortcode.prototype.html_code = function( object_name, row_id, column_id, shortcode_id, parent, total_shortcodes ){
 	
 	var matches = false;
 	var post_id = 0;
@@ -1153,7 +1153,7 @@ otw_grid_manager_shortcode.prototype.html_code = function( object_name, row_id, 
 	return html;
 };
 
-otw_grid_manager_object.prototype.init_column_dialog = function( row_id, column_id ){
+otw_overlay_grid_manager_object.prototype.init_column_dialog = function( row_id, column_id ){
 	
 	otw_form_init_fields();
 	
@@ -1179,14 +1179,14 @@ otw_grid_manager_object.prototype.init_column_dialog = function( row_id, column_
 	this.init_add_column_dialog_columns();
 	
 };
-otw_grid_manager_object.prototype.column_dialog_mark_selected = function(){
+otw_overlay_grid_manager_object.prototype.column_dialog_mark_selected = function(){
 	jQuery( '.otw_grid_manager_column_dlg_row .otw-columns' ).removeClass( 'otw-selected-column' );
 	
 	if( this.selected_column.length == 2 ){
 		jQuery( '.otw_grid_manager_column_dlg_row .otw-column-' + this.selected_column[0] + '_' + this.selected_column[1] ).parent().addClass('otw-selected-column' );
 	};
 };
-otw_grid_manager_object.prototype.init_add_column_dialog_buttons = function(){
+otw_overlay_grid_manager_object.prototype.init_add_column_dialog_buttons = function(){
 	
 	with( this ){
 		jQuery( '#adv_settings_mobile_container > .otw_mobile' ).click( function(){
@@ -1248,7 +1248,7 @@ otw_grid_manager_object.prototype.init_add_column_dialog_buttons = function(){
 		});
 	};
 };
-otw_grid_manager_object.prototype.init_add_column_dialog_columns = function(){
+otw_overlay_grid_manager_object.prototype.init_add_column_dialog_columns = function(){
 	
 	with( this ){
 		jQuery( '.otw_grid_manager_column_dlg_row .otw-column-content').click( function(){

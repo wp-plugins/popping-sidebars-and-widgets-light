@@ -104,6 +104,14 @@
 			$otw_overlay_values['grid_content'] = otw_stripslashes( $_POST['_otw_grid_manager_content']['code'] );
 		}
 	}
+	
+	$info_box_class = 'otw_info_box';
+	
+	if( isset( $otw_admin_settings['page'] ) && isset( $otw_admin_settings['page']['otw-pswl-manage'] ) && isset( $otw_admin_settings['page']['otw-pswl-manage']['infobox'] ) && in_array( $otw_admin_settings['page']['otw-pswl-manage']['infobox'], array( 'open', 'closed') ) ){
+		$info_box_class .= ' otw_ib_'.$otw_admin_settings['page']['otw-pswl-manage']['infobox'];
+	}else{
+		$info_box_class .= ' otw_ib_open';
+	}
 ?>
 <div class="wrap">
 	<div id="icon-edit" class="icon32"><br/></div>
@@ -112,6 +120,22 @@
 		<a class="preview button" href="admin.php?page=otw-pswl"><?php _e('Back To Available overlays', 'otw_pswl')?></a>
 	</h2>
 	<?php include_once( 'otw_pswl_help.php' );?>
+	<div class="updated <?= $info_box_class?>">
+		<div class="otw_info_box_controls">
+			<a href="javascript:;" class="otw_open_info_box"><?php _e( 'info', 'otw_pswl' )?></a>
+			<a href="javascript:;" class="otw_close_info_box"><?php _e( 'x', 'otw_pswl' )?></a>
+		</div>
+		<div class="otw_info_box_content">
+			<p><?php _e( 'Wondering how this works?', 'otw_pswl' );?></p>
+			<ul>
+				<li><?php _e( '1. Choose the Overlay Type', 'otw_pswl' );?></li>
+				<li><?php _e( '2. Set it up in <a href="javascript:;" class="otw_scrollto" rel="otw_options_main">Overlay Options</a> bellow', 'otw_pswl' );?></li>
+				<li><?php _e( '3. If you need to style it add a custom css class in <a href="javascript:;" class="otw_scrollto" rel="otw_options_custom">Custom Styling Options</a> bellow', 'otw_pswl' );?></li>
+				<li><?php _e( '4. Go down to the <a href="javascript:;" rel="otw_grid_manager_content" class="otw_scrollto">OTW Grid Manager Light</a> to create a layout and insert sidebars in your overlay. The layout is the skeleton that holds the sidebars and makes sure everything is well arranged.', 'otw_pswl' );?></li>
+				<li><?php _e( '5. If you need to have custom sidebars you can create as many sidebars as you need from <a href="admin.php?page=otw-pswl-sidebars-manage">Add Sidebar</a> in the left menu of the plugin.', 'otw_pswl' );?></li>
+			</ul>
+		</div>
+	</div>
 	<?php if( isset( $validate_messages ) && count( $validate_messages ) ){?>
 		<div id="message" class="error">
 			<?php foreach( $validate_messages as $v_message ){
@@ -157,7 +181,7 @@
 									<?php foreach( $overlay_data['options'] as $option_name => $option_data ){?>
 										
 										<?php if( in_array( $option_name, array( 'main', 'custom' ) ) ){?>
-											<div class="meta-box-sortables">
+											<div class="meta-box-sortables otw_options_<?= $option_name?>">
 												<div data-type="<?= $option_name?>" class="postbox<?php echo ( $page_settings['metabox_'.$option_name ] == 'closed'  )?' closed':''?>">
 													<div title="<?php _e('Click to toggle', 'otw_pswl')?>" class="handlediv sitem_toggle"><br /></div>
 													<h3 class="hndle sitem_header"><span><?php echo $option_data['label']?></span></h3>

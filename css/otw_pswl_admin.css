@@ -364,3 +364,24 @@ div.otw_overlay_options div.inside .otw-form-uploader{
     padding: 1px 12px;
     margin: 10px 2px 0 1px;
 }
+.otw_info_box .otw_info_box_controls{
+	text-align: right;
+}
+.otw_info_box ul{
+	margin-top: 1px;
+}
+.otw_info_box ul li{
+	margin-left: 10px;
+}
+.otw_info_box.otw_ib_open .otw_open_info_box{
+	display: none;
+}
+.otw_info_box.otw_ib_closed .otw_close_info_box{
+	display: none;
+}
+.otw_info_box.otw_ib_open .otw_info_box_content{
+	display: block;
+}
+.otw_info_box.otw_ib_closed .otw_info_box_content{
+	display: none;
+}
