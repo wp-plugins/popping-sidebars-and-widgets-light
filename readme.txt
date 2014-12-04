@@ -54,17 +54,17 @@ Upgrade to the full version of [Popping Sidebars and Widgets](http://otwthemes.c
 * Visibility for any set of pages, page templates, posts , categories, tags, archives, custom post types, taxonomies, user roles, WPML languages, WooCommerce, bbPress, BuddyPress
 * Full Bar and Side Box Positioning - Header, Footer, Left and Right 
 * Full Bar and Side Box - Scrolling Type
+* Full Bar - Push or Over site content
 * More Animations
-* Active Periods
-* More open/close events - on page load, on page load with delay, after a number of page views, on exit intent, from a link, number of page loads, period of time, etc.
+* Multiple Activation Periods
+* More Open and Close Events for all overlay types
 * Custom Styling via an interface in the back-end
 * Overlay First Load - Opened / Closed
 * Content Position - right and center 
 * Show Button Label
 * Hide for small screens - on / off
 * z-index
-* Trigger from a link via Shortcodes
-* Trigger form a WP menu item
+* Trigger from a link, button, shortcode, WP menu item
 * Support and Updates
 * Zero Coding Required
 
