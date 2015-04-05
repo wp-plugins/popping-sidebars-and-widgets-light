@@ -150,17 +150,13 @@ class OTW_Overlay_Shortcode extends OTW_Component{
 		$this->register_shortcodes();
 		
 		if( is_admin() ){
-			wp_enqueue_script('otw_shortcode_admin', $this->component_url.'js/otw_shortcode_admin.js' , array( 'jquery' ), $this->js_version );
-			wp_enqueue_style( 'otw_shortcode_admin', $this->component_url.'css/otw_shortcode_admin.css', array( ), $this->css_version );
 			
-			add_action( 'admin_footer', array( &$this, 'load_admin_js' ) );
-			
-			add_action( 'wp_ajax_otw_shortcode_editor_dialog', array( &$this, 'build_shortcode_editor_dialog' ) );
-			add_action( 'wp_ajax_otw_shortcode_get_code', array( &$this, 'get_code' ) );
-			add_action( 'wp_ajax_otw_shortcode_live_preview', array( &$this, 'live_preview' ) );
-			add_action( 'wp_ajax_otw_shortcode_live_reload', array( &$this, 'live_reload' ) );
-			add_action( 'wp_ajax_otw_shortcode_preview_shortcodes', array( &$this, 'preview_shortcodes' ) );
-			add_action( 'wp_ajax_otw_shortcode_preview_front_shortcodes', array( &$this, 'preview_front_shortcodes' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_editor_dialog', array( &$this, 'build_shortcode_editor_dialog' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_get_code', array( &$this, 'get_code' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_live_preview', array( &$this, 'live_preview' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_live_reload', array( &$this, 'live_reload' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_preview_shortcodes', array( &$this, 'preview_shortcodes' ) );
+			add_action( 'wp_ajax_otw_overlay_shortcode_preview_front_shortcodes', array( &$this, 'preview_front_shortcodes' ) );
 			
 			if( get_user_option('rich_editing') ){
 				
@@ -595,6 +591,14 @@ class OTW_Overlay_Shortcode extends OTW_Component{
 			$script .= '?v='.$this->css_version;
 		}
 		return $script;
+	}
+	
+	public function include_admin_scripts(){
+		
+		add_action( 'admin_footer', array( &$this, 'load_admin_js' ) );
+		
+		wp_enqueue_script('otw_overlay_shortcode_admin', $this->component_url.'js/otw_shortcode_admin.js' , array( 'jquery' ), $this->js_version );
+		wp_enqueue_style( 'otw_overlay_shortcode_admin', $this->component_url.'css/otw_shortcode_admin.css', array( ), $this->css_version );
 	}
 }
 ?>

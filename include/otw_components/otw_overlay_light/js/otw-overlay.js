@@ -2,6 +2,8 @@ jQuery(document).ready(function(){
 	
 	otw_set_full_bar_height();
 	
+	otw_set_scrolling_content();
+	
 	// Switch stickies
 	jQuery('.otw-hide-label').click(function(){
 	
@@ -582,6 +584,28 @@ jQuery(document).ready(function(){
 	
 } );
 
+otw_set_scrolling_content = function(){
+
+	jQuery( '.otw-small-csr.fixed-position' ).each( function(){
+	
+		
+		var section = jQuery( this ).find( '.otw-sticky-content' );
+		
+		var section_height = jQuery( this ).outerHeight();
+		var section_position = jQuery( this ).position();
+		
+		var window_height = jQuery( window ).height();
+		
+		var end_point = Number( section_position.top ) + Number( section_height );
+		
+		if( end_point > window_height ){
+			
+			section.css( 'height', ( section.height() - ( end_point - window_height ) - 20 ) + 'px' );
+			
+			section.css( 'overflow', 'auto' );
+		}
+	});
+}
 
 
 otw_set_full_bar_height = function(){
