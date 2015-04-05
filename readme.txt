@@ -3,8 +3,8 @@ Contributors: OTWthemes
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CQH6CMTR42KS2
 Tags: custom sidebars, custom layout, full bar, lightbox, open close events, poping sidebars, poping widgets, popup, relevant content, side box, sidebar, widget
 Requires at least: 3.6
-Tested up to: 4.0
-Stable tag: 1.1
+Tested up to: 4.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,24 +47,24 @@ This plugin comes Localization/Internationalization ready. It is following WordP
 
 **Full version of the plugin**
 
-Upgrade to the full version of [Popping Sidebars and Widgets](http://otwthemes.com/product/popping-sidebars-and-widgets-for-wordpress/?utm_source=wp.org&utm_medium=page&utm_content=upgrade&utm_campaign=psw) |
+Upgrade to the full version of [Popping Sidebars and Widgets](http://codecanyon.net/item/popping-sidebars-and-widgets-for-wordpress/8688220?ref=OTWthemes) |
 [Demo site](http://otwthemes.com/demos/1ts/?item=Popping%20Sidebars%20Widgets&utm_source=wp.org&utm_medium=page&utm_content=upgrade&utm_campaign=psw) 
 
 * Responsive Layouts in your Overlay
 * Visibility for any set of pages, page templates, posts , categories, tags, archives, custom post types, taxonomies, user roles, WPML languages, WooCommerce, bbPress, BuddyPress
 * Full Bar and Side Box Positioning - Header, Footer, Left and Right 
 * Full Bar and Side Box - Scrolling Type
-* Full Bar - Push or Over site content
 * More Animations
-* Multiple Activation Periods
-* More Open and Close Events for all overlay types
+* Active Periods
+* More open/close events - on page load, on page load with delay, after a number of page views, on exit intent, from a link, number of page loads, period of time, etc.
 * Custom Styling via an interface in the back-end
 * Overlay First Load - Opened / Closed
 * Content Position - right and center 
 * Show Button Label
 * Hide for small screens - on / off
 * z-index
-* Trigger from a link, button, shortcode, WP menu item
+* Trigger from a link via Shortcodes
+* Trigger form a WP menu item
 * Support and Updates
 * Zero Coding Required
 
@@ -95,6 +95,11 @@ Please refer to [online documentation page](http://otwthemes.com/online-document
  
 
 == Changelog ==
+
+= 1.2 =
+
+* Updated: include admin js when needed
+* Updated: scrolling content on fixed position
 
 = 1.1 =
 

@@ -15,7 +15,7 @@ function otw_sw_add_shortcode( controler ){
 		
 		if( code_object.shortcodes.length == 0 ){
 			
-			jQuery.post( 'admin-ajax.php?action=otw_shortcode_editor_dialog&shortcode=' + shortcode_type, { shortcode_object: post_data }, function(b){
+			jQuery.post( 'admin-ajax.php?action=otw_overlay_shortcode_editor_dialog&shortcode=' + shortcode_type, { shortcode_object: post_data }, function(b){
 								
 								jQuery( "#otw-dialog").remove();
 								var cont = jQuery( '<div id="otw-dialog">' + b + '</div>' );
@@ -186,7 +186,7 @@ function otw_sw_settings( shortcode_id, shortcode_number ){
 				};
 			};
 			
-			jQuery.post( 'admin-ajax.php?action=otw_shortcode_editor_dialog&shortcode=' + shortcode_type, { shortcode_object: post_data }, function(b){
+			jQuery.post( 'admin-ajax.php?action=otw_overlay_shortcode_editor_dialog&shortcode=' + shortcode_type, { shortcode_object: post_data }, function(b){
 									
 									jQuery( "#otw-dialog").remove();
 									var cont = jQuery( '<div id="otw-dialog">' + b + '</div>' );

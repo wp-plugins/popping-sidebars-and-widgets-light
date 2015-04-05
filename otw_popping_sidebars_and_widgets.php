@@ -4,7 +4,7 @@ Plugin Name: Popping Sidebars and Widgets Light
 Plugin URI: http://OTWthemes.com
 Description:  Create custom popping layouts with sidebars and widgets in just a few clicks. 
 Author: OTWthemes.com
-Version: 1.1
+Version: 1.2
 
 Author URI: http://themeforest.net/user/OTWthemes
 */

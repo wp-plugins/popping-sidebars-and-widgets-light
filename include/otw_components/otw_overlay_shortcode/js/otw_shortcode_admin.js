@@ -122,7 +122,7 @@ otw_shortcode_object.prototype.init_dropdown_actions = function(){
 								dropdown_menu.hide();
 							break;
 						default:
-								jQuery.get( wp_url + '.php?action=otw_shortcode_editor_dialog&shortcode=' + matches[1],function(b){
+								jQuery.get( wp_url + '.php?action=otw_overlay_shortcode_editor_dialog&shortcode=' + matches[1],function(b){
 									
 									jQuery( "#otw-dialog").remove();
 									var cont = jQuery( '<div id="otw-dialog">' + b + '</div>' );
@@ -399,7 +399,7 @@ otw_shortcode_editor_object.prototype.live_reload = function(){
 		
 		var save_button_value = jQuery( '#TB_ajaxContent' ).find( '#otw-shortcode-btn-insert' ).val();
 		
-		jQuery.post( wp_url + '.php?action=otw_shortcode_live_reload&shortcode=' + this.shortcode_type , { 'shortcode': s_code, 'post': post_id }, function( response ){
+		jQuery.post( wp_url + '.php?action=otw_overlay_shortcode_live_reload&shortcode=' + this.shortcode_type , { 'shortcode': s_code, 'post': post_id }, function( response ){
 			
 			jQuery( '#TB_ajaxContent' ).html( response );
 			
@@ -440,7 +440,7 @@ otw_shortcode_editor_object.prototype.live_preview = function(){
 	
 	with( this ){
 		
-		jQuery.post( wp_url + '.php?action=otw_shortcode_live_preview&shortcode=' + this.shortcode_type , { 'shortcode': s_code, 'post': post_id }, function( response ){
+		jQuery.post( wp_url + '.php?action=otw_overlay_shortcode_live_preview&shortcode=' + this.shortcode_type , { 'shortcode': s_code, 'post': post_id }, function( response ){
 			
 			if( preview != 'iframe' ){
 				
@@ -570,7 +570,7 @@ otw_shortcode_editor_object.prototype.get_code = function(){
 			wp_url = 'admin-ajax';
 		}
 		
-		jQuery.post( wp_url + '.php?action=otw_shortcode_get_code&shortcode=' + this.shortcode_type , this.code, function( response ){
+		jQuery.post( wp_url + '.php?action=otw_overlay_shortcode_get_code&shortcode=' + this.shortcode_type , this.code, function( response ){
 			
 			var response_code = jQuery.parseJSON( response );
 			

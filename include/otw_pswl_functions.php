@@ -224,11 +224,15 @@ if( !function_exists( 'otw_pswl_enqueue_admin_scripts' ) ){
 	
 	function otw_pswl_enqueue_admin_scripts( $requested_page ){
 		
-		global $otw_pswl_plugin_url, $otw_pswl_js_version;
+		global $otw_pswl_plugin_url, $otw_pswl_js_version, $otw_pswl_shortcode_object, $otw_pswl_grid_manager_object;
 		
 		switch( $requested_page ){
 			
 			case 'popping-sidebars-and-widgets-light_page_otw-pswl-manage':
+					
+					$otw_pswl_grid_manager_object->include_admin_scripts();
+					$otw_pswl_shortcode_object->include_admin_scripts();
+					
 					wp_enqueue_style('thickbox');
 					wp_enqueue_script('thickbox');
 					wp_enqueue_script('media-models');

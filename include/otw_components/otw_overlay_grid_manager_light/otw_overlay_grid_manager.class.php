@@ -64,9 +64,6 @@ class OTW_Overlay_Grid_Manager extends OTW_Component{
 		
 			
 		if( is_admin() ){
-			wp_enqueue_script('otw_overlay_grid_manager_admin', $this->component_url.'js/otw_overlay_grid_manager_admin.js?' , array( 'jquery' ), '1.1' );
-			wp_enqueue_style( 'otw_grid_manager_light_admin', $this->component_url.'css/otw-grid-admin.css', array( ), '1.1' );
-			wp_enqueue_style( 'otw_grid_manager', $this->component_url.'css/otw-grid.css', array( ), '1.1' );
 		}
 		
 		
@@ -426,6 +423,12 @@ class OTW_Overlay_Grid_Manager extends OTW_Component{
 		
 		return false;
 	}
-
+	
+	public function include_admin_scripts(){
+		
+		wp_enqueue_script('otw_overlay_grid_manager_admin', $this->component_url.'js/otw_overlay_grid_manager_admin.js?' , array( 'jquery' ), '1.1' );
+		wp_enqueue_style( 'otw_overlay_grid_manager_light_admin', $this->component_url.'css/otw-grid-admin.css', array( ), '1.1' );
+		wp_enqueue_style( 'otw_grid_manager', $this->component_url.'css/otw-grid.css', array( ), '1.1' );
+	}
 }
 ?>
