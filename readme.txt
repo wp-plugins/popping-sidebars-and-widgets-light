@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: custom sidebars, custom layout, full bar, lightbox, open close events, poping sidebars, poping widgets, popup, relevant content, side box, sidebar, widget
 Requires at least: 3.6
 Tested up to: 4.2
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,11 @@ Please refer to [online documentation page](http://otwthemes.com/online-document
  
 
 == Changelog ==
+
+= 1.4 =
+
+* Fixed: light box close effect on escape or background click
+* Updated: Combine js and css libs
 
 = 1.3 =
 

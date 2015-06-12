@@ -33,14 +33,26 @@ class OTW_Form extends OTW_Component{
 		self::$static_css_version = $this->css_version;
 		
 		if( is_admin() ){
-			wp_enqueue_script('otw_form_colorpicker_admin', $this->component_url.'js/colorpicker.js' , array( 'jquery' ), $this->js_version );
-			wp_enqueue_script('otw_form_datetimepicker_admin', $this->component_url.'js/datetimepicker.js' , array( 'jquery' ), $this->js_version);
-			wp_enqueue_script('otw_form_admin', $this->component_url.'js/otw_form_admin.js' , array( 'jquery' ), $this->js_version );
 			
-			wp_enqueue_style( 'otw_form_colorpicker_admin', $this->component_url.'css/colorpicker.css', array( ), $this->css_version );
-			wp_enqueue_style('otw_form_datetimepicker_admin', $this->component_url.'css/datetimepicker.css' ,array(), $this->css_version);
-			wp_enqueue_style( 'otw_form_admin', $this->component_url.'css/otw_form_admin.css', array( ), $this->css_version );
-			
+			if( method_exists( $this, 'add_lib' ) ){
+				
+				$this->add_lib( 'js', 'otw_form_colorpicker_admin', $this->component_url.'js/colorpicker.js' , 'admin', 50, array( 'jquery' ) );
+				$this->add_lib( 'js', 'otw_form_datetimepicker_admin', $this->component_url.'js/datetimepicker.js' , 'admin', 50,  array( 'jquery' ) );
+				$this->add_lib( 'js', 'otw_form_admin', $this->component_url.'js/otw_form_admin.js' , 'admin', 50,  array( 'jquery' ) );
+				
+				$this->add_lib( 'css', 'otw_form_colorpicker_admin', $this->component_url.'css/colorpicker.css', 'admin', 50, array( ) );
+				$this->add_lib( 'css', 'otw_form_datetimepicker_admin', $this->component_url.'css/datetimepicker.css', 'admin', 50, array( ) );
+				$this->add_lib( 'css', 'otw_form_admin', $this->component_url.'css/otw_form_admin.css', 'admin', 50, array( ) );
+				
+			}else{
+				wp_enqueue_script('otw_form_colorpicker_admin', $this->component_url.'js/colorpicker.js' , array( 'jquery' ), $this->js_version );
+				wp_enqueue_script('otw_form_datetimepicker_admin', $this->component_url.'js/datetimepicker.js' , array( 'jquery' ), $this->js_version);
+				wp_enqueue_script('otw_form_admin', $this->component_url.'js/otw_form_admin.js' , array( 'jquery' ), $this->js_version );
+				
+				wp_enqueue_style( 'otw_form_colorpicker_admin', $this->component_url.'css/colorpicker.css', array( ), $this->css_version );
+				wp_enqueue_style('otw_form_datetimepicker_admin', $this->component_url.'css/datetimepicker.css' ,array(), $this->css_version);
+				wp_enqueue_style( 'otw_form_admin', $this->component_url.'css/otw_form_admin.css', array( ), $this->css_version );
+			}
 			
 		}elseif( $this->init_in_front ){
 			

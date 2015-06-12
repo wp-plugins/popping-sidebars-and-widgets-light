@@ -49,6 +49,21 @@ class OTW_Component{
 	public $external_libs = array();
 	
 	/**
+	 * Libs
+	 */
+	public static $libs = array();
+	
+	/**
+	 * combine libs
+	 */
+	public $combine_libs = 1;
+	
+	/**
+	 * combined_cache_path
+	 */
+	public $combined_cache_path = 'otwcache';
+	
+	/**
 	 * js version
 	 */
 	public $js_version = '1.13';
@@ -76,11 +91,15 @@ class OTW_Component{
 		}
 		else
 		{
-			$this->enqueue_scripts();
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 1000 );
 		}
 	}
 	
 	public function enqueue_scripts(){
+		
+		if( $this->combine_libs && defined( 'OTW_DEVELOPMENT' ) ){
+			$this->combine_libs = 2;
+		}
 		
 		$this->enqueue_javascripts();
 		
@@ -88,7 +107,8 @@ class OTW_Component{
 	}
 	
 	public function enqueue_javascripts(){
-	
+		
+		
 		if( isset( $this->external_libs['js'] ) ){
 			
 			uasort( $this->external_libs['js'], array( $this, 'order_external_libs' ) );
@@ -117,6 +137,93 @@ class OTW_Component{
 				}
 			}
 		}
+		
+		if( isset( self::$libs['js'] ) ){
+			
+			if( $this->combine_libs ){
+				
+				$combined_js_array = array();
+				$combined_js_array['files'] = array();
+				$combined_js_array['deps'] = array();
+				
+				$upload_dir = wp_upload_dir();
+				
+				if( !is_dir( $upload_dir['basedir'] ) || !is_writable( $upload_dir['basedir'] ) ){
+					$this->combine_libs = 0;
+				}else{
+					if( !is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+						mkdir( $upload_dir['basedir'].'/'.$this->combined_cache_path );
+					}
+					
+					if( !is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+						$this->combine_libs = 0;
+					}
+				}
+			}
+			
+			uasort( self::$libs['js'], array( $this, 'order_libs' ) );
+			
+			foreach( self::$libs['js'] as $js_lib ){
+				
+				$register = false;
+				switch( $js_lib['int'] ){
+					
+					case 'admin':
+							if( is_admin()  ){
+								$register = true;
+							}
+						break;
+					case 'front':
+							if( !is_admin()  ){
+								$register = true;
+							}
+						break;
+					case 'all':
+							$register = true;
+						break;
+				}
+				if( $register ){
+					
+					if( $this->combine_libs ){
+						
+						$combined_js_array['files'][ $js_lib['name'] ] = $this->get_lib_contents( $js_lib );
+						
+						if( isset( $js_lib['deps'] ) && is_array( $js_lib['deps'] ) && count( $js_lib['deps'] ) ){
+							
+							foreach( $js_lib['deps'] as $dep ){
+								$combined_js_array['deps'][ $dep ] = $dep;
+							}
+						}
+						
+					}else{
+						wp_enqueue_script( $js_lib['name'], $js_lib['path'], $js_lib['deps'] );
+					}
+				}
+			}
+			
+			if( $this->combine_libs && count( $combined_js_array['files']  ) ){
+				
+				$c_key = $this->get_components_key( 'js' );
+				
+				$script_name = 'otw_components_js_'.intval( is_admin() ).'_'.$c_key.'.js';
+				
+				$file_name = $upload_dir['basedir'].'/'.$this->combined_cache_path.'/'.$script_name;
+				
+				if( !file_exists( $file_name )  || ( $this->combine_libs == 2 ) ){
+					
+					$fp = @fopen( $file_name, 'w' );
+					
+					if( $fp ){
+						fwrite( $fp, implode( ";", $combined_js_array['files'] ) );
+						fclose( $fp );
+					}
+				}
+				
+				if( file_exists( $file_name ) ){
+					wp_enqueue_script( 'otw_components_'.intval( is_admin() ).'_js', $upload_dir['baseurl'].'/'.$this->combined_cache_path.'/'.$script_name, array_keys( $combined_js_array['deps'] ), $this->js_version );
+				}
+			}
+		}
 	}
 	
 	public function order_external_libs( $lib_a, $lib_b ){
@@ -128,6 +235,84 @@ class OTW_Component{
 			return -1;
 		}
 		return 0;
+	}
+	
+	
+	public function order_libs( $lib_a, $lib_b ){
+		
+		if( $lib_a['order'] > $lib_b['order'] ){
+			return 1;
+		}
+		elseif( $lib_a['order'] < $lib_b['order'] ){
+			return -1;
+		}
+		if( $lib_a['key'] > $lib_b['key'] ){
+			return 1;
+		}
+		elseif( $lib_a['key'] < $lib_b['key'] ){
+			return -1;
+		}
+		return 0;
+	}
+	
+	public function get_components_key( $type ){
+		
+		global $otw_components;
+		
+		$key = '';
+		
+		if( isset( $otw_components['registered'] ) && is_array( $otw_components['registered'] ) ){
+			$key = md5( serialize( $otw_components['registered'] ) );
+		}
+		if( isset( $otw_components['loaded'] ) && is_array( $otw_components['loaded'] ) ){
+			$loaded_array = array();
+			foreach( $otw_components['loaded'] as $component => $component_versions ){
+				
+				foreach( $component_versions as $version => $data ){
+					
+					$loaded_array[ $version ] = $data['path'];
+					break;
+				}
+			}
+			$key .= '_'.md5( serialize( $loaded_array ) );
+		}
+		if( isset( self::$libs[ $type ] ) ){
+			$key = md5( serialize( self::$libs[ $type ] ) );
+		}
+		
+		return $key;
+	}
+	
+	public function check_components_key( $type ){
+		
+		$upload_dir = wp_upload_dir();
+		
+		if( is_dir( $upload_dir['basedir'] ) && is_writable( $upload_dir['basedir'] ) ){
+			
+			if( !is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+				mkdir( $upload_dir['basedir'].'/'.$this->combined_cache_path );
+			}
+			
+			if( is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+				
+				$key_path = $upload_dir['basedir'].'/'.$this->combined_cache_path.'/components_key_'.$type.'_'.intval( is_admin() ).'.txt';
+				
+				$current_key = $this->get_components_key( $type );
+				
+				if( file_exists( $key_path ) && ( $current_key == file_get_contents( $key_path ) ) ){
+					return true;
+				}else{
+					$fp = fopen( $key_path, 'w' );
+					
+					if( $fp ){
+						fwrite( $fp, $current_key );
+						fclose( $fp );
+					}
+				}
+			}
+			
+		}
+		return false;
 	}
 	
 	public function enqueue_styles(){
@@ -168,6 +353,139 @@ class OTW_Component{
 				}
 			}
 		}
+		
+		if( isset( self::$libs['css'] ) ){
+			
+			if( $this->combine_libs ){
+				
+				$combined_css_array = array();
+				$combined_css_array['files'] = array();
+				$combined_css_array['deps'] = array();
+				
+				$upload_dir = wp_upload_dir();
+				
+				if( !is_dir( $upload_dir['basedir'] ) || !is_writable( $upload_dir['basedir'] ) ){
+					$this->combine_libs = 0;
+				}else{
+					if( !is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+						mkdir( $upload_dir['basedir'].'/'.$this->combined_cache_path );
+					}
+					
+					if( !is_dir( $upload_dir['basedir'].'/'.$this->combined_cache_path ) ){
+						$this->combine_libs = 0;
+					}
+				}
+			}
+			
+			uasort( self::$libs['css'], array( $this, 'order_libs' ) );
+			
+			foreach( self::$libs['css'] as $css_lib ){
+				
+				$register = false;
+				switch( $css_lib['int'] ){
+					
+					case 'admin':
+							if( is_admin()  ){
+								$register = true;
+							}
+						break;
+					case 'front':
+							if( !is_admin()  ){
+								$register = true;
+							}
+						break;
+					case 'all':
+							$register = true;
+						break;
+				}
+				if( $register ){
+					
+					if( $this->combine_libs ){
+						
+						$combined_css_array['files'][ $css_lib['name'] ] = $this->get_lib_contents( $css_lib );
+						
+						if( isset( $css_lib['deps'] ) && is_array( $css_lib['deps'] ) && count( $css_lib['deps'] ) ){
+							
+							foreach( $css_lib['deps'] as $dep ){
+								$combined_css_array['deps'][ $dep ] = $dep;
+							}
+						}
+						
+					}else{
+						wp_enqueue_style( $css_lib['name'], $css_lib['path'], $css_lib['deps'] );
+					}
+				}
+			}
+			
+			if( $this->combine_libs && count( $combined_css_array['files']  ) ){
+				
+				$c_key = $this->get_components_key( 'css' );
+				
+				$script_name = 'otw_components_css_'.intval( is_admin() ).'_'.$c_key.'.css';
+				
+				$file_name = $upload_dir['basedir'].'/'.$this->combined_cache_path.'/'.$script_name;
+				
+				if( !file_exists( $file_name ) || ( $this->combine_libs == 2 )  ){
+					
+					$fp = @fopen( $file_name, 'w' );
+					
+					if( $fp ){
+						fwrite( $fp, implode( "\n", $combined_css_array['files'] ) );
+						fclose( $fp );
+					}
+				}
+				
+				if( file_exists( $file_name ) ){
+					wp_enqueue_style( 'otw_components_'.intval( is_admin() ).'_css', $upload_dir['baseurl'].'/'.$this->combined_cache_path.'/'.$script_name, array_keys( $combined_css_array['deps'] ), $this->css_version );
+				}
+			}
+		}
+	}
+	
+	/**
+	 * get the contents of a lib file
+	 * 
+	 */
+	private function get_lib_contents( $lib ){
+		
+		$file_path = '';
+		
+		if( defined( 'ABSPATH' ) ){
+			
+			$file_url = parse_url( $lib['path'] );
+			
+			$file_path = ABSPATH.'/'.$file_url['path'];
+		}else{
+			$file_path = $lib['path'];
+		}
+		
+		$contents = file_get_contents( $file_path );
+		
+		if( preg_match( "/\.\.\//", $contents, $matches ) ){
+			
+			$path_parts = explode( '/', $lib['path'] );
+			
+			$prev_dir = '';
+			
+			$path_count = 1;
+			foreach( $path_parts as $part ){
+				
+				if( $path_count < ( count( $path_parts ) - 1 ) ){
+					
+					if( strlen( $prev_dir ) ){
+						$prev_dir .= '/';
+					}
+					$prev_dir .= $part;
+				}
+				
+				$path_count++;
+			}
+			
+			if( strlen( $prev_dir ) ){
+				$contents = str_replace( '../', $prev_dir.'/', $contents );
+			}
+		}
+		return $contents;
 	}
 	
 	/**
@@ -184,6 +502,23 @@ class OTW_Component{
 			$this->external_libs[ $type ] = array();
 		}
 		$this->external_libs[ $type ][] = array( 'name' => $name, 'path' => $path, 'int' => $int, 'order' => $order, 'deps' => $deps );
+	}
+	
+	/**
+	 * add lib
+	 * @type js/css
+	 * @name name
+	 * @path url
+	 * @int front/admin/all
+	 * @deps depends
+	 */
+	public function add_lib( $type, $name, $path, $int, $order, $deps  ){
+		
+		if( !isset( self::$libs[ $type ] ) ){
+			self::$libs[ $type ] = array();
+		}
+		$key = count( self::$libs[ $type ] );
+		self::$libs[ $type ][ $key ] = array( 'name' => $name, 'path' => $path, 'int' => $int, 'order' => $order, 'deps' => $deps, 'key' => $key );
 	}
 	
 	/**

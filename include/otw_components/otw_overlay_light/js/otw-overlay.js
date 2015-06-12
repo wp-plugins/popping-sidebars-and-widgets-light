@@ -481,6 +481,9 @@ jQuery(document).ready(function(){
 							this.container.addClass( 'hide-overlay-for-small' );
 							this.container.parents('.mfp-wrap').addClass( 'hide-overlay-for-small' );
 						}
+					},
+					close: function(){
+						otwCloseMagnificPopup( this.content );
 					}
 				},
 				removalDelay: 500, //delay removal by X to allow out-animation
@@ -503,6 +506,9 @@ jQuery(document).ready(function(){
 							this.container.addClass( 'hide-overlay-for-small' );
 							this.container.parents('.mfp-wrap').addClass( 'hide-overlay-for-small' );
 						}
+					},
+					close: function(){
+						otwCloseMagnificPopup( jQuery( this.content[2] ) );
 					}
 				},
 				mainClass: effects,
@@ -534,6 +540,7 @@ jQuery(document).ready(function(){
 					},
 					close: function() {
 						this.content.removeClass('hinge');
+						otwCloseMagnificPopup( this.content );
 					},
 					open: function(){
 						if( this.content.hasClass( 'hide-overlay-for-small' ) ){
@@ -571,6 +578,7 @@ jQuery(document).ready(function(){
 					},
 					close: function() {
 						this.content.removeClass('hinge');
+						otwCloseMagnificPopup( jQuery( this.content[2] ) );
 					}
 				},
 				midClick: true
@@ -643,6 +651,41 @@ otw_overlay_with_admin_bar = function(){
 	}
 }
 
+otwCloseMagnificPopup = function( popup ){
+	
+	if( popup.hasClass( 'otw-close-forever' ) ){
+		
+		jQuery.ajax({
+			type: 'post',
+			data: { 
+				otw_overlay_action: 'otw-overlay-tracking',
+				method: 'close_forever',
+				overlay_id: popup.attr( 'id' )
+			}
+		});
+	}else if( popup.hasClass( 'otw-close-loads' ) ){
+		
+		jQuery.ajax({
+			type: 'post',
+			    data: {
+				otw_overlay_action: 'otw-overlay-tracking',
+				method: 'close_loads',
+				overlay_id: popup.attr( 'id' )
+			}
+		});
+	}else if( popup.hasClass( 'otw-close-days') ){
+		
+		jQuery.ajax({
+			type: 'post',
+			data: {
+				otw_overlay_action: 'otw-overlay-tracking',
+				method: 'close_days',
+				overlay_id: popup.attr( 'id' )
+			}
+		});
+	}
+}
+
 otwOpenMagnificPopup = function( node ){
 	
 	var is_hinge = false;
@@ -660,6 +703,9 @@ otwOpenMagnificPopup = function( node ){
 		open: function(){
 		
 			otw_init_magnificPopup( this );
+		},
+		close: function(){
+			otwCloseMagnificPopup( this.content );
 		}
 	};
 	
@@ -670,6 +716,7 @@ otwOpenMagnificPopup = function( node ){
 		}
 		ppCallbacks.close = function() {
 			this.content.removeClass('hinge');
+			otwCloseMagnificPopup( this.content );
 		}
 		close_delay = 1000;
 		main_class = 'mfp-with-fade';

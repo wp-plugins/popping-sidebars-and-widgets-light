@@ -68,7 +68,11 @@ class OTW_Overlay_Grid_Manager extends OTW_Component{
 		
 		
 		if( !is_admin() ){
-			wp_enqueue_style( 'otw_grid_manager', $this->component_url.'css/otw-grid.css', array( ), '1.1' );
+			if( method_exists( $this, 'add_lib' ) ){
+				$this->add_lib( 'css', 'otw_grid_manager', $this->component_url.'css/otw-grid.css', 'front', 40, array() );
+			}else{
+				wp_enqueue_style( 'otw_grid_manager', $this->component_url.'css/otw-grid.css', array( ), $this->css_version );
+			}
 		}
 	}
 	

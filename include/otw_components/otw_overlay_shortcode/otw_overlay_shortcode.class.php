@@ -116,7 +116,17 @@ class OTW_Overlay_Shortcode extends OTW_Component{
 			
 			if( !is_array( $shortcode_settings['children'] ) || !count( $shortcode_settings['children'] ) ){
 				foreach( $this->shortcodes[ $shortcode_key ]['object']->external_libs as $lib_array ){
-					$this->add_external_lib( $lib_array['type'], $lib_array['name'], $lib_array['path'], $lib_array['int'], $lib_array['order'], $lib_array['deps'] );
+					
+					if( method_exists( $this, 'add_lib' ) && $this->combine_libs ){
+						if( preg_match( "/include\/otw_components/", $lib_array['path'], $matches ) ){
+							$deps = array();
+							$this->add_lib( $lib_array['type'], 'otw_overlay_'.$lib_array['name'], $lib_array['path'], $lib_array['int'], $lib_array['order'], $deps );
+						}else{
+							$this->add_external_lib( $lib_array['type'], 'otw_overlay_'.$lib_array['name'], $lib_array['path'], $lib_array['int'], $lib_array['order'], $lib_array['deps'] );
+						}
+					}else{
+						$this->add_external_lib( $lib_array['type'], 'otw_overlay_'.$lib_array['name'], $lib_array['path'], $lib_array['int'], $lib_array['order'], $lib_array['deps'] );
+					}
 				}
 			}
 		}

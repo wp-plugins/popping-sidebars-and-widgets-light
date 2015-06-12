@@ -35,13 +35,23 @@ class OTW_Overlay extends OTW_Component{
 		if( !is_admin() ){
 			
 			add_action( 'wp_footer', array( $this, 'display_overlays' ) );
-			wp_enqueue_style( 'otw-popups', $this->component_url.'css/otw-popups.css', array( ), $this->css_version );
-			wp_enqueue_style( 'otw-mfp', $this->component_url.'css/otw-mfp.css', array( ), $this->css_version );
-			wp_enqueue_style( 'otw-overlay', $this->component_url.'css/otw-overlay.css', array( ), $this->css_version );
 			
-			wp_enqueue_script('otw-mpf-code', $this->component_url.'js/mfp-core-inline-0.9.9.js' , array( 'jquery' ), $this->js_version );
-			wp_enqueue_script('otw-overlay', $this->component_url.'js/otw-overlay.js' , array( 'jquery' ), $this->js_version );
-			
+			if( method_exists( $this, 'add_lib' ) ){
+				
+				$this->add_lib( 'css', 'otw-popups', $this->component_url.'css/otw-popups.css', 'front', 50, array() );
+				$this->add_lib( 'css', 'otw-mfp', $this->component_url.'css/otw-mfp.css', 'front', 50, array() );
+				$this->add_lib( 'css', 'otw-overlay', $this->component_url.'css/otw-overlay.css', 'front', 50, array() );
+				
+				$this->add_lib( 'js', 'otw-mpf-code', $this->component_url.'js/mfp-core-inline-0.9.9.js', 'front', 100, array( 'jquery' ) );
+				$this->add_lib( 'js', 'otw-overlay', $this->component_url.'js/otw-overlay.js', 'front', 100, array( 'jquery' ) );
+			}else{
+				wp_enqueue_style( 'otw-popups', $this->component_url.'css/otw-popups.css', array( ), $this->css_version );
+				wp_enqueue_style( 'otw-mfp', $this->component_url.'css/otw-mfp.css', array( ), $this->css_version );
+				wp_enqueue_style( 'otw-overlay', $this->component_url.'css/otw-overlay.css', array( ), $this->css_version );
+				
+				wp_enqueue_script('otw-mpf-code', $this->component_url.'js/mfp-core-inline-0.9.9.js' , array( 'jquery' ), $this->js_version );
+				wp_enqueue_script('otw-overlay', $this->component_url.'js/otw-overlay.js' , array( 'jquery' ), $this->js_version );
+			}
 			
 			$this->process_tracking();
 		}
