@@ -450,7 +450,11 @@ class OTW_Component{
 		
 		$file_path = '';
 		
-		if( defined( 'ABSPATH' ) ){
+		if( isset( $lib['full_path'] ) && strlen( trim( $lib['full_path'] ) ) ){
+			
+			$file_path = $lib['full_path'];
+			
+		}elseif( defined( 'ABSPATH' ) ){
 			
 			$file_url = parse_url( $lib['path'] );
 			
@@ -518,7 +522,8 @@ class OTW_Component{
 			self::$libs[ $type ] = array();
 		}
 		$key = count( self::$libs[ $type ] );
-		self::$libs[ $type ][ $key ] = array( 'name' => $name, 'path' => $path, 'int' => $int, 'order' => $order, 'deps' => $deps, 'key' => $key );
+		
+		self::$libs[ $type ][ $key ] = array( 'name' => $name, 'path' => $path, 'int' => $int, 'order' => $order, 'deps' => $deps, 'key' => $key, 'full_path' => str_replace( $this->component_url, $this->component_path, $path ) );
 	}
 	
 	/**
