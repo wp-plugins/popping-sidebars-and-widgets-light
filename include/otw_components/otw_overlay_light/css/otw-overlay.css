@@ -1,0 +1,76 @@
+.otw-affiliate{
+	position: relative;
+	padding-bottom: 20px !important;
+}
+.otw-overlay-affiliate{
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	text-align: right;
+	font-size: 10px;
+	right: 10px;
+}
+.otw-show-label{
+	white-space: nowrap;
+}
+.otw-show-sticky-loads .otw-show-label{
+	visibility: hidden;
+}
+.otw-first-show-sticky .otw-show-label{
+	visibility: hidden;
+}
+.otw-show-sticky-delay .otw-show-label{
+	visibility: hidden;
+}
+.otw-show-sticky-mouse .otw-show-label{
+	visibility: hidden;
+}
+.otw-sticky-wrapoer .otw-row{
+	width: auto;
+}
+.mfp-content .otw-row{
+	width: auto;
+}
+.otw-show-sticky-link .otw-show-label{
+	visibility: hidden;
+}
+@media only screen and (max-width: 767px) {
+	.hide-overlay-for-small{
+		display: none;
+	}
+}
+.otw-hide-sticky.otw-top-sticky .otw-hide-label{
+	visibility: hidden;
+}
+
+/*bottom scrolling posittion*/
+.otw-sticky.otw-hide-sticky.otw-bottom-sticky.scrolling-position {
+  position: fixed;
+}
+.otw-sticky.otw-show-sticky.otw-bottom-sticky.scrolling-position {
+  position: fixed;
+}
+.otw-sticky.otw-show-sticky.otw-bottom-sticky.scrolling-position .otw-show-label{
+	visibility: hidden;
+}
+.otw-sticky.otw-show-sticky.otw-right-sticky.scrolling-position .otw-show-label{
+	display: none;
+}
+.otw-sticky.otw-show-sticky.otw-right-sticky.scrolling-position{
+	position: fixed;
+}
+.otw-sticky.otw-hide-sticky{
+	pointer-events: none;
+}
+.otw-sticky.otw-hide-sticky .otw-show-label{
+	pointer-events: auto;
+}
+.mfp-content .otw-align-left{
+	text-align: left;
+}
+.mfp-content .otw-align-center{
+	text-align: center;
+}
+.mfp-content .otw-align-right{
+	text-align: right;
+}
